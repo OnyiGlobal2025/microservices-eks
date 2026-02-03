@@ -97,7 +97,8 @@ Services are correctly configured
 
 Internal service-to-service communication is working
 
-Why No Ingress / Load Balancer?
+
+## Why No Ingress / Load Balancer?
 
 This project intentionally focuses on core Kubernetes networking concepts rather than public exposure.
 
