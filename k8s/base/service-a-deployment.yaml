@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-a
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-a
+  template:
+    metadata:
+      labels:
+        app: service-a
+    spec:
+      containers:
+        - name: service-a
+          image: 713923090919.dkr.ecr.us-east-1.amazonaws.com/service-a:1.0
+          ports:
+            - containerPort: 8000
+          env:
+            - name: SERVICE_B_URL
+              value: "http://service-b:8000"
