@@ -47,16 +47,8 @@ Accessing the following endpoint confirms successful communication:
 
 ## GET /call-service-b
 
-Response:
-```json
-{
-  "from": "service-a",
-  "service-b-response": {
-    "service": "B",
-    "message": "Hello from Service B"
-  }
-}
-
+Response
+{"from":"Service-a","service-b-response":{"Service":"B","message":"Hello from service B"}}
 
 
 
