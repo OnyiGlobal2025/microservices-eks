@@ -20,7 +20,7 @@ Pods (Dockerized Applications)
 
 ## Components Breakdown
 
-1. Amazon EKS Cluster
+## Amazon EKS Cluster
 
 Managed Kubernetes control plane provided by AWS
 
@@ -28,9 +28,9 @@ Worker nodes run containerized workloads
 
 Core Kubernetes components (kube-proxy, CoreDNS, metrics server) are running and healthy
 
-2. Microservices
+## Microservices
 
-Service A
+## Service A
 
 Exposed internally via ClusterIP
 
@@ -41,7 +41,7 @@ Forwards requests to Service B
 Runs inside Kubernetes pods using a Docker container
 
 
-Service B
+## Service B
 
 Exposed internally via ClusterIP
 
@@ -52,7 +52,7 @@ Not exposed directly to the client
 Runs inside Kubernetes pods using a Docker container
 
 
-3. Kubernetes Networking
+## Kubernetes Networking
 
 ClusterIP Services are used for internal communication
 
@@ -63,7 +63,7 @@ No external load balancer is required for internal traffic
 Traffic flow is fully handled inside the cluster
 
 
-4. Local Access Strategy (Development & Verification)
+## Local Access Strategy (Development & Verification)
 
 For local testing and validation, port forwarding is used instead of an external ingress:
 
