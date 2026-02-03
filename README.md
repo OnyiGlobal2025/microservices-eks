@@ -48,7 +48,7 @@ Accessing the following endpoint confirms successful communication:
 ## GET /call-service-b
 
 Response
-{"from":"Service-a","service-b-response":{"Service":"B","message":"Hello from service B"}}
+{"from":"service-a","service-b-response":{"service":"B","message":"Hello from service B"}}
 
 
 
