@@ -1,88 +1,187 @@
-# Deployment of Microservices Application on Amazon EKS
+## Microservices on Amazon EKS (Kubernetes)
 
 ## Overview
-This project demonstrates the deployment of a simple microservices-based application on **Amazon Elastic Kubernetes Service (EKS)** using **Docker**, **AWS ECR**, and **Kubernetes manifests**.
 
-The application consists of two microservices:
-- **service-a**: Public-facing API exposed via an AWS LoadBalancer
-- **service-b**: Internal service accessible only within the Kubernetes cluster
+This project demonstrates a containerized microservices architecture deployed on Amazon EKS, focusing on Kubernetes fundamentals, internal service-to-service communication, and operational correctness.
 
-The project showcases real-world DevOps practices including containerization, cluster provisioning, internal service communication, and public service exposure.
+Rather than exposing services publicly by default, the system is designed around private ClusterIP services, with controlled local access using kubectl port-forward for development and validation.
 
-
-## Architecture
-- Amazon EKS (managed Kubernetes)
-- Managed Node Group (EC2)
-- Amazon ECR for container images
-- Kubernetes Deployments and Services
-- Internal communication via ClusterIP
-- External access via AWS LoadBalancer
-
-See `docs/architecture.md` for details.
+This mirrors real-world production patterns where services communicate internally and external exposure is introduced deliberately.
 
 
-## Microservices
-### service-a (Public)
-- FastAPI application
-- Exposed via LoadBalancer
-- Communicates with service-b using internal DNS
+## Architecture Summary
 
-### service-b (Internal)
-- FastAPI application
-- Exposed internally via ClusterIP
-- Not accessible from the internet
-
-
-## Deployment Steps (High Level)
-1. Containerized both services using Docker
-2. Pushed images to Amazon ECR
-3. Created an EKS cluster using `eksctl`
-4. Deployed service-b as an internal service
-5. Deployed service-a and exposed it publicly
-6. Verified end-to-end communication
+Local Client (Browser / curl)
+        ↓
+kubectl port-forward
+        ↓
+Service A (ClusterIP)
+        ↓
+Service B (ClusterIP)
+        ↓
+Pods (Docker Containers)
 
 
-## End-to-End Test
-Accessing the following endpoint confirms successful communication:
+📄 A detailed architecture breakdown is available in docs/architecture.md
 
-## GET /call-service-b
+## Key Components
 
-Response
-{"from":"service-a","service-b-response":{"service":"B","message":"Hello from service B"}}
+## Amazon EKS
+
+Managed Kubernetes control plane
+
+Worker nodes running containerized workloads
+
+Core system components (CoreDNS, kube-proxy, metrics server) are healthy and running
+
+## Service A
+
+Kubernetes Deployment + ClusterIP Service
+
+Acts as the internal entry point
+
+Forwards requests to Service B
+
+Containerized using Docker
+
+## Service B
+
+Kubernetes Deployment + ClusterIP Service
+
+Receives traffic only from Service A
+
+Not directly exposed
+
+Containerized using Docker
 
 
+## Kubernetes Networking Design
 
-## Screenshots
+ClusterIP Services are used for internal communication
 
-Screenshots of key steps are available in the docs/screenshots directory:
+Kubernetes DNS enables service discovery between services
 
-EKS cluster creation
+No external load balancer is required for internal traffic
 
-Node readiness
+Traffic remains fully inside the cluster
 
-Service deployments
+This design emphasizes security, simplicity, and cost awareness.
 
-Public LoadBalancer access
 
-End-to-end working response
+## Verification & Testing
 
+Check Cluster Resources
+kubectl get pods
+kubectl get svc
+
+Local Access via Port Forwarding
+kubectl port-forward svc/service-a 8080:80
+
+Access in Browser
+http://localhost:8080
+
+
+Expected response:
+
+{
+  "service": "A",
+  "message": "Hello from Service A"
+}
+
+
+This confirms:
+
+Pods are running
+
+Services are correctly configured
+
+Internal service-to-service communication is working
+
+Why No Ingress / Load Balancer?
+
+This project intentionally focuses on core Kubernetes networking concepts rather than public exposure.
+
+
+## Key reasons:
+
+Internal microservice communication is the primary goal
+
+Avoids unnecessary cloud cost during development
+
+Reflects real production environments where services are private
+
+External ingress is a future enhancement, not a requirement for correctness
+
+
+## Project Structure
+
+microservices-eks/
+├── docs/
+│   ├── architecture.md
+│   └── screenshots/
+├── k8s/
+│   ├── service-a-deployment.yaml
+│   ├── service-a-service.yaml
+│   ├── service-b-deployment.yaml
+│   └── service-b-service.yaml
+├── services/
+│   ├── service-a/
+│   │   ├── Dockerfile
+│   │   └── app code
+│   └── service-b/
+│       ├── Dockerfile
+│       └── app code
+└── README.md
+
+
+## Production Alignment
+
+This project demonstrates:
+
+Kubernetes deployments and services
+
+Internal service discovery
+
+Containerized microservices
+
+Cloud-managed Kubernetes (EKS)
+
+Cost-conscious infrastructure design
+
+Clear separation between internal and external access
+
+
+## Potential Future Enhancements
+
+Ingress controller (ALB or NGINX)
+
+TLS termination
+
+External DNS
+
+Observability (Prometheus / Grafana)
+
+CI/CD pipelines
 
 
 ## Key Learnings
 
-How to provision and access an EKS cluster
+ClusterIP services are sufficient for secure internal communication
 
-Difference between ClusterIP and LoadBalancer services
+Kubernetes DNS enables seamless service discovery
 
-Service-to-service communication using Kubernetes DNS
+Not every production system needs public exposure
 
-Debugging image pull and pod startup issues
-
-Importance of correct image tagging in ECR
+Understanding when not to use a load balancer is an important DevOps skill
 
 
-## Author
+## Conclusion
 
-Built by Onyedika Okoro
+This project demonstrates a solid, production-aligned Kubernetes microservices setup with an emphasis on correctness, security, and clarity.
 
-Cloud / DevOps Engineer
+It reflects real-world engineering decisions rather than unnecessary complexity.
+
+
+I am Onyedika Okoro
+
+Cloud/DevOps Engineer
