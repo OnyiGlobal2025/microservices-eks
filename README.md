@@ -114,8 +114,9 @@ Reflects real production environments where services are private
 External ingress is a future enhancement, not a requirement for correctness
 
 
-## Project Structure
+##  Project Structure
 
+```
 microservices-eks/
 ├── docs/
 │   ├── architecture.md
@@ -129,10 +130,12 @@ microservices-eks/
 │   ├── service-a/
 │   │   ├── Dockerfile
 │   │   └── app code
-│   └── service-b/
-│       ├── Dockerfile
-│       └── app code
+│   ├── service-b/
+│   │   ├── Dockerfile
+│   │   └── app code
 └── README.md
+```
+
 
 
 ## Production Alignment
