@@ -11,6 +11,7 @@ This mirrors real-world production patterns where services communicate internall
 
 ## Architecture Summary
 
+```
 Local Client (Browser / curl)
         ↓
 kubectl port-forward
@@ -20,6 +21,7 @@ Service A (ClusterIP)
 Service B (ClusterIP)
         ↓
 Pods (Docker Containers)
+```
 
 
 📄 A detailed architecture breakdown is available in docs/architecture.md

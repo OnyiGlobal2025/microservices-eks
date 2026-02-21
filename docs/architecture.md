@@ -5,17 +5,20 @@ This project demonstrates a containerized microservices application deployed on 
 The architecture intentionally emphasizes ClusterIP services and internal routing, with local access enabled via kubectl port-forward for development and validation.
 
 
+
 ## High-Level Architecture
 
+```
 Local Client (Browser / curl)
-        ↓
+  ↓
 kubectl port-forward
-        ↓
+  ↓
 Service A (ClusterIP)
-        ↓
+  ↓
 Service B (ClusterIP)
-        ↓
+  ↓
 Pods (Dockerized Applications)
+```
 
 
 ## Components Breakdown
