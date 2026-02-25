@@ -93,14 +93,10 @@ http://localhost:8080
 
 Expected response:
 
-
-```json
 {
   "service": "A",
   "message": "Hello from Service A"
 }
-```
-
 
 
 - This confirms:
