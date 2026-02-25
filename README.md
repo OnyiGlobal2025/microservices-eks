@@ -30,42 +30,44 @@ Pods (Docker Containers)
 
 ## Amazon EKS
 
-Managed Kubernetes control plane
+- Managed Kubernetes control plane
 
-Worker nodes running containerized workloads
+- Worker nodes running containerized workloads
 
-Core system components (CoreDNS, kube-proxy, metrics server) are healthy and running
+- Core system components (CoreDNS, kube-proxy, metrics server) are healthy and running
+
 
 ## Service A
 
-Kubernetes Deployment + ClusterIP Service
+- Kubernetes Deployment + ClusterIP Service
 
-Acts as the internal entry point
+- Acts as the internal entry point
 
-Forwards requests to Service B
+- Forwards requests to Service B
 
-Containerized using Docker
+- Containerized using Docker
+
 
 ## Service B
 
-Kubernetes Deployment + ClusterIP Service
+- Kubernetes Deployment + ClusterIP Service
 
-Receives traffic only from Service A
+- Receives traffic only from Service A
 
-Not directly exposed
+- Not directly exposed
 
-Containerized using Docker
+- Containerized using Docker
 
 
 ## Kubernetes Networking Design
 
-ClusterIP Services are used for internal communication
+- ClusterIP Services are used for internal communication
 
-Kubernetes DNS enables service discovery between services
+- Kubernetes DNS enables service discovery between services
 
-No external load balancer is required for internal traffic
+- No external load balancer is required for internal traffic
 
-Traffic remains fully inside the cluster
+- Traffic remains fully inside the cluster
 
 This design emphasizes security, simplicity, and cost awareness.
 
@@ -73,8 +75,14 @@ This design emphasizes security, simplicity, and cost awareness.
 ## Verification & Testing
 
 Check Cluster Resources
+
+```
 kubectl get pods
+```
+
+```
 kubectl get svc
+```
 
 Local Access via Port Forwarding
 kubectl port-forward svc/service-a 8080:80
@@ -85,19 +93,23 @@ http://localhost:8080
 
 Expected response:
 
+
+```json
 {
   "service": "A",
   "message": "Hello from Service A"
 }
+```
 
 
-This confirms:
 
-Pods are running
+- This confirms:
 
-Services are correctly configured
+1. Pods are running
 
-Internal service-to-service communication is working
+2. Services are correctly configured
+
+3. Internal service-to-service communication is working
 
 
 ## Why No Ingress / Load Balancer?
@@ -107,13 +119,13 @@ This project intentionally focuses on core Kubernetes networking concepts rather
 
 ## Key reasons:
 
-Internal microservice communication is the primary goal
+1. Internal microservice communication is the primary goal
 
-Avoids unnecessary cloud cost during development
+2. Avoids unnecessary cloud cost during development
 
-Reflects real production environments where services are private
+3. Reflects real production environments where services are private
 
-External ingress is a future enhancement, not a requirement for correctness
+4. External ingress is a future enhancement, not a requirement for correctness
 
 
 ##  Project Structure
@@ -144,41 +156,41 @@ microservices-eks/
 
 This project demonstrates:
 
-Kubernetes deployments and services
+- Kubernetes deployments and services
 
-Internal service discovery
+- Internal service discovery
 
-Containerized microservices
+- Containerized microservices
 
-Cloud-managed Kubernetes (EKS)
+- Cloud-managed Kubernetes (EKS)
 
-Cost-conscious infrastructure design
+- Cost-conscious infrastructure design
 
-Clear separation between internal and external access
+- Clear separation between internal and external access
 
 
 ## Potential Future Enhancements
 
-Ingress controller (ALB or NGINX)
+- Ingress controller (ALB or NGINX)
 
-TLS termination
+- TLS termination
 
-External DNS
+- External DNS
 
-Observability (Prometheus / Grafana)
+- Observability (Prometheus / Grafana)
 
-CI/CD pipelines
+- CI/CD pipelines
 
 
 ## Key Learnings
 
-ClusterIP services are sufficient for secure internal communication
+1. ClusterIP services are sufficient for secure internal communication
 
-Kubernetes DNS enables seamless service discovery
+2. Kubernetes DNS enables seamless service discovery
 
-Not every production system needs public exposure
+3. Not every production system needs public exposure
 
-Understanding when not to use a load balancer is an important DevOps skill
+4. Understanding when not to use a load balancer is an important DevOps skill
 
 
 ## Conclusion
